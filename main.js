@@ -26,6 +26,9 @@ function assertStartBeforeEnd(type) {
 }
 
 function isDoctypePresent(str) {
+    if(document.doctype == null)
+        return false;
+    return true;
     return str.indexOf('<!') !== 0 ? false :
         str.substr(str.indexOf('<!'), str.indexOf('>')).toLowerCase() ===
         'doctype html' ? true : false;
@@ -93,22 +96,25 @@ function printTree(root) {
 // var HTML = "<html><head></head><body><div></div></body></html>";
 // var HTML = "<HTML><head></head><body><!--This is a comment, this should be ignored .. <br></body></HTML>";
 // var HTML = "<HTML><head></head><body><!--This is a comment, this should be ignored .. --><br></body></HTML>";
-var HTML = ">HTML></head></head><body><!--This is a comment, this should be ignored .. --><br></body></HTML>";
+var HTML = document.getElementsByTagName('html')[0].innerHTML;
 
 var symStack = new Stack();
 
 var root = {}, openElm, closeElm, errors = [], curr, matchArr = [], warnings = [];
-
+function parse(str) {
+    HTML = str;
+    console.log(HTML);
 if (typeof HTML !== 'undefined') {
-    if(!isDoctypePresent(HTML)) {
-        warnings.push('No <!DOCTYPE html> declaration found');
-    }
+    // if(!isDoctypePresent(HTML)) {
+    //     warnings.push('No <!DOCTYPE html> declaration found');
+    // }
     while (HTML.length >= 1) {
         if (!HTML) {
             break;
         }
         // Tag End
         else if (HTML.indexOf("</") === 0) {
+            // console.log(HTML);
             if (!assertStartBeforeEnd("tag")) {
                 errors.push('Closing tag encountered before an opening one!');
                 // break;
@@ -136,7 +142,7 @@ if (typeof HTML !== 'undefined') {
             console.log('Open: ', openElm);
             if (openElm === 'html') {
                 if (root) {
-                    errors.push('Miltiple opening html tags encountered!');
+                    errors.push('Multiple opening html tags encountered!');
                     // break;
                 }
                 root = new Tree.node('html');
@@ -169,3 +175,4 @@ if (typeof HTML !== 'undefined') {
     printTree(root);
 }
 
+}

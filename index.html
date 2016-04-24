@@ -2,10 +2,12 @@
 <html>
     <head>
         <title>This is the title</title>
-        <meta charset="utf-8"/>
     </head>
     <body>
-        This is the body
+    	<textarea rows="10" cols="50" id="file" name="file"></textarea>
+		<button onclick="parse($('textarea').val())">submit</button>
     </body>
     <script type="text/javascript" src="main.js"></script>
+    <script   src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>  
+
 </html>
